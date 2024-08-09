@@ -1,0 +1,95 @@
+﻿@model WorkManagementApp.Models.SubTask
+@using static WorkManagementApp.Areas.LocalUser.Controllers.SubTasksController
+@using System.IO
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-dark py-2">SubTask Details</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-4">
+        <div class="row">
+            <div class="col-12">
+                <dl class="row">
+                    <dt class="col-sm-3">Sub Task Name</dt>
+                    <dd class="col-sm-9">@Model.SubTaskName</dd>
+
+                    <dt class="col-sm-3">Money In</dt>
+                    <dd class="col-sm-9">@Model.MoneyIn</dd>
+
+                    <dt class="col-sm-3">Money Out</dt>
+                    <dd class="col-sm-9">@Model.MoneyOut</dd>
+
+                    <dt class="col-sm-3">Task Name</dt>
+                    <dd class="col-sm-9">@Model.Task.TaskName</dd>
+
+                    <dt class="col-sm-3">Project Name</dt>
+                    <dd class="col-sm-9">@Model.Projects.ProjectName</dd>
+
+                    <dt class="col-sm-3">Status</dt>
+                    <dd class="col-sm-9">@Model.Status</dd>
+
+                    <dt class="col-sm-3">Images/PDFs</dt>
+                    <dd class="col-sm-9">
+                        @if (!string.IsNullOrEmpty(Model.Image))
+                        {
+                            var imagePaths = Model.Image.Split(';');
+                            <div class="d-flex flex-wrap">
+                                @foreach (var imagePath in imagePaths)
+                                {
+                                    <div class="p-2">
+                                        @{
+                                            var fileExtension = FileHelper.GetFileExtension(imagePath);
+                                            var filePath = Url.Content("~/" + imagePath);
+                                        }
+                                        @if (fileExtension == ".pdf")
+                                        {
+                                            <a href="@filePath" target="_blank">Open PDF</a>
+                                        }
+                                        else if (fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png")
+                                        {
+                                            <a href="@filePath" target="_blank" class="image-link">
+                                                <img src="@filePath" alt="Task Image" style="width:100px; height:auto;" />
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span>Unsupported file type</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <span>No Images/PDFs available</span>
+                        }
+                    </dd>
+                </dl>
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="SubTasks" asp-action="Edit" asp-route-subTaskId="@Model.SubTaskId" class="btn btn-primary form-control">Edit</a>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Home" asp-action="ProjectView" class="btn btn-secondary border form-control">Back To List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include CSS for larger image display -->
+<style>
+    .image-link {
+        display: inline-block;
+    }
+
+        .image-link img {
+            max-width: 100%;
+            height: auto;
+        }
+</style>

@@ -1,0 +1,117 @@
+﻿@model IEnumerable<SubTask>
+@using static WorkManagementApp.Areas.LocalUser.Controllers.SubTasksController
+@using System.IO
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-dark py-2">Sub Task List</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-4">
+        <div class="row pb-3">
+            <div class="col-6">
+                <form asp-controller="SubTasks" asp-action="Index" method="get">
+                    <div class="input-group">
+                        <input type="text" name="searchString" class="form-control" placeholder="Search Sub Tasks" value="@Context.Request.Query["searchString"]" />
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6 text-end">
+                <a asp-controller="SubTasks" asp-action="Create" class="btn btn-primary">
+                    <i class="bi bi-person-plus"></i> Create New Sub Task
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Sub Task Name</th>
+                        <th>Money In</th>
+                        <th>Money Out</th>
+                        <th>Task Name</th>
+                        <th>Project Name</th>
+                        <th>Status</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var obj in Model)
+                    {
+                        <tr>
+                            <td>@obj.SubTaskName</td>
+                            <td style="color: green;">@obj.MoneyIn</td>
+                            <td style="color: red;">@obj.MoneyOut</td>
+                            <td>@obj.Task.TaskName</td>
+                            <td>@obj.Projects.ProjectName</td>
+                            <td>@obj.Status</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(obj.Image))
+                                {
+                                    var imagePaths = obj.Image.Split(';');
+                                    var firstImagePath = imagePaths[0];
+                                    var fileExtension = FileHelper.GetFileExtension(firstImagePath);
+                                    var filePath = Url.Content("~/" + firstImagePath);
+                                    if (fileExtension == ".pdf")
+                                    {
+                                        <a href="@filePath" target="_blank">Open PDF</a>
+                                    }
+                                    else if (fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png")
+                                    {
+                                        <img src="@filePath" alt="Task Image" style="width:100px; height:auto;" />
+                                    }
+                                    else
+                                    {
+                                        <span>Unsupported file type</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>No Image</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-controller="SubTasks" asp-action="Edit" asp-route-subTaskId="@obj.SubTaskId" class="btn btn-primary mx-2">
+                                        <i class="bi bi-pencil-fill"></i> Edit
+                                    </a>
+                                    <a asp-controller="SubTasks" asp-action="Details" asp-route-subTaskId="@obj.SubTaskId" class="btn btn-primary mx-2">
+                                        <i class="bi bi-ticket-detailed"></i> Details
+                                    </a>
+                                    @if (User.IsInRole(SD.Role_user_Admin))
+                                    {
+                                        <a asp-controller="SubTasks" asp-action="Delete" asp-route-subTaskId="@obj.SubTaskId" class="btn btn-danger mx-2">
+                                            <i class="bi bi-trash-fill"></i> Delete
+                                        </a>
+                                    }
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td><strong style="color: green;">@ViewBag.SumMoneyIn</strong></td>
+                        <td><strong style="color: red;">@ViewBag.SumMoneyOut</strong></td>
+                        <td colspan="5">
+                            <strong style="color: @(ViewBag.TotalSubTaskBudget < 0 ? "red" : "green");">Total [Money In - Money Out] :- @ViewBag.TotalSubTaskBudget</strong>
+                            <br />
+                            <strong style="color: @(ViewBag.RemainingTaskBudget < 0 ? "red" : "green");">Remaining Task Budget :- @ViewBag.RemainingTaskBudget</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

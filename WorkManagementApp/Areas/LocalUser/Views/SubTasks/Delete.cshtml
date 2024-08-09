@@ -1,0 +1,63 @@
+﻿@model WorkManagementApp.Models.SubTask
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-dark py-2">Delete SubTask</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-4">
+        <form asp-action="Delete" method="post" enctype="multipart/form-data" class="row">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="SubTaskId" />
+            <div class="border pt-3">
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="SubTaskName" class="form-control border-0 shadow" readonly />
+                    <label>Sub Task Name</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="MoneyIn" class="form-control border-0 shadow" readonly />
+                    <label>Money In</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="MoneyOut" class="form-control border-0 shadow" readonly />
+                    <label>Money Out</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    @Html.DropDownListFor(m => m.TaskID, new SelectList(ViewBag.Tasks, "Value", "Text"), "Select Task", new { @class = "form-control border-0 shadow", @disabled = "disabled" })
+                    <label>Select Task Name</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    @Html.DropDownListFor(m => m.ProjectID, new SelectList(ViewBag.Projects, "Value", "Text"), "Select Project", new { @class = "form-control border-0 shadow", @disabled = "disabled" })
+                    <label>Select Project Name</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    @Html.DropDownListFor(m => m.Status, new SelectList(new[] { "Completed", "Pending" }), "Select Status", new { @class = "form-control border-0 shadow", @disabled = "disabled" })
+                    <label>Status</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="Image" type="file" name="uploadedFile" class="form-control border-0 shadow" disabled />
+                    <label>Select Image (Leave blank if not changing)</label>
+                </div>
+                <div class="form-group py-2 col-12">
+                    @if (!string.IsNullOrEmpty(Model.Image))
+                    {
+                        <img src="@Url.Content("~/" + Model.Image)" alt="Current Image" style="width:100px; height:auto;" />
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-danger form-control">Delete</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Home" asp-action="ProjectView" class="btn btn-secondary border form-control">
+                            Back To List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

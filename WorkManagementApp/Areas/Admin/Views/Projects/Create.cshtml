@@ -1,0 +1,55 @@
+﻿@model Projects
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-dark py-2"> Create New Project</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-4">
+        <form method="post" class="row">
+            <div class="border pt-3">
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="ProjectName" class="form-control border-0 shadow" />
+                    <label>Project Name</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="ProjectLocation" class="form-control border-0 shadow" />
+                    <label>Project Locatione</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="StartDate" type="date" class="form-control border-0 shadow" />
+                    <label>Start Date</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="EndDate" type="date" class="form-control border-0 shadow" />
+                    <label>End Date</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="SupervisorName" class="form-control border-0 shadow" />
+                    <label>Supervisor Name</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="Budget" class="form-control border-0 shadow" />
+                    <label>Total Budget</label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="ProfitAndLoss" class="form-control border-0 shadow" />
+                    <label>Profit & Loass</label>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control"> Create </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Projects" asp-action="Index" class="btn btn-secondary border form-control">
+                            Back To List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+﻿@{
+    var projectDetails = ViewBag.ProjectDetails as IEnumerable<dynamic>;
+}
+
+<div class="row pb-2">
+    @foreach (var project in projectDetails)
+    {
+        <div class="col-lg-3 col-sm-6">
+            <div class="row p-2">
+                <div col-12 p-1>
+                    <div class="card border-0 p-3 shadow border-top border-5 rounded">
+                        <div class="pl-2">
+                            <p class="card-text h5 text-dark opacity-75 text-uppercase text-center text-bg-secondary text-bg-secondary">
+                                <span style="color: blue; font-weight: bold;">@project.ProjectName</span>
+                            </p>
+                        </div>
+                        <div class="pl-3">
+                            <p class="text-dark text-opacity-75 text-center">
+                                Total Project Budget:
+                                <span style="color: rebeccapurple; font-weight: bold;">@project.Budget.ToString("c")</span>
+                            </p>
+                        </div>
+                        <div class="pl-1">
+                            <p class="text-dark text-opacity-75 text-center">
+                                Total Profit and Loss:
+                                <span style="font-weight: bold;
+                                    @(project.ProfitAndLoss < 0 ? "color: red;" : "color: green;")">
+                                    @project.ProfitAndLoss.ToString("c")
+                                </span>
+                            </p>
+                        </div>
+                        <div>
+                            <a asp-controller="Home" asp-action="TaskView" asp-route-id="@project.ProjectId" class="btn btn-primary bg-gradient border-0 form-control">
+                                Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

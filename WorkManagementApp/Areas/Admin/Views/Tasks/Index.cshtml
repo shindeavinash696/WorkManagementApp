@@ -1,0 +1,40 @@
+﻿@model IEnumerable<TaskDetails>
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Task List</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-4">
+        <div class="row pb-3">
+            <div class="col-6">
+            </div>
+            <div class="col-6 text-end">
+                <a asp-controller="Tasks" asp-action="Upsert" class="btn btn-primary">
+                    <i class="bi bi-person-plus"></i>Create New Task
+                </a>
+            </div>
+        </div>
+
+        <table id="tblData" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Task Name</th>
+                    <th>Task Budget</th>
+                    <th>Updated by</th>
+                    <th>Project Name</th> <!-- Column for task images -->
+                    <th>Actions</th> <!-- Column for actions like creating sub-tasks -->
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/tasks.js"></script>
+}
+

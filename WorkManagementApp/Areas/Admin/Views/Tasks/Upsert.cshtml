@@ -1,0 +1,66 @@
+﻿@model ProductVM
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-dark py-2"> @(Model.TaskDetails.TaskId != 0 ? "Update" : "Create") New Task</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-4">
+        <form method="post" class="row" enctype="multipart/form-data">
+            <input asp-for="TaskDetails.TaskId" hidden />
+            <input asp-for="TaskDetails.ImageUrl" hidden />
+            <div class="row">
+                <div class="col-10">
+                    <div class="border pt-3">
+                        <div class="form-floating py-2 col-12">
+                            <textarea asp-for="TaskDetails.TaskName" class="form-control border-0 shadow"></textarea>
+                            <label>Task Name</label>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <input asp-for="TaskDetails.TaskBuget" class="form-control border-0 shadow" />
+                            <label>Budget</label>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <select asp-for="TaskDetails.UpdatedBy" asp-items="ViewBag.SupervisorName" class="form-select border-0 shadow">
+                                <option value="">Select Supervisor Name</option>
+                            </select>
+                            <label>Select Supervisor Name</label>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <select asp-for="TaskDetails.ProjectID" asp-items="@Model.ProjectList" class="form-select border-0 shadow">
+                                <option disabled selected>--Select Project Name--</option>
+                            </select>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <input type="file" name="file" asp-for="TaskDetails.ImageUrl" class="form-control border-0 shadow" />
+                            <label>Images</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 col-md-3">
+                                @if (@Model.TaskDetails.TaskId != 0)
+                                {
+                                    <button type="submit" class="btn btn-primary form-control"> Update </button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-primary form-control"> Create </button>
+                                }
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <a asp-controller="Tasks" asp-action="Index" class="btn btn-secondary border form-control">
+                                    Back To List
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <img src="@Model.TaskDetails.ImageUrl" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
